@@ -7,6 +7,7 @@ import 'verification_screen.dart';
 import 'credentials_screen.dart';
 import 'profile_screen.dart';
 import 'ttp_screen.dart';
+import 'sanctuary_details_screen.dart';
 import 'package:pawesomeid_mobile/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,108 +29,141 @@ class _HomeScreenState extends State<HomeScreen> {
   final double _identityScore = 75.0;
   final List<Map<String, dynamic>> _credentials = [
     {
-      'title': 'Education Certificate',
-      'issuer': 'Local School',
-      'date': '2024-03-15',
+      'title': 'Primate Caretaker',
+      'issuer': 'Primate Protection Center',
+      'date': '2021-09-01',
       'verified': true,
     },
     {
-      'title': 'Identity Verification',
-      'issuer': 'NGO Partner',
-      'date': '2024-03-10',
+      'title': 'Primate Caretaker',
+      'issuer': 'Primate Protection Center',
+      'date': '2021-09-01',
+      'verified': true,
+    },
+    {
+      'title': 'Primate Caretaker',
+      'issuer': 'Primate Protection Center',
+      'date': '2021-09-01',
       'verified': true,
     },
   ];
+  
 
   // À ajouter dans la classe _HomeScreenState
 
-final String _sanctuaryName = 'Primate Protection Center';
-final String _sanctuaryLocation = 'Cameroon, Central Africa';
-final String _keeperName = 'Keeper John';
-final String _keeperRole = 'Senior Primate Caretaker';
+  final String _sanctuaryName = 'Primate Protection Center';
+  final String _sanctuaryLocation = 'Cameroon, Central Africa';
+  final String _keeperName = 'Keeper John';
+  final String _keeperRole = 'Senior Primate Caretaker';
+  final String _keeperDid = 'did:algo:J4PCC5KTBIEREW7EVNU6I6FQMRQFM7B57G624ETVT2LXD3RRZFQEVK53HQ';
 
-Widget _buildSanctuaryInfo() {
-  return Card(
-    elevation: 4,
-    margin: const EdgeInsets.all(16),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.green[100],
-                child: Icon(Icons.park, size: 30, color: Colors.green[700]),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _sanctuaryName,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _sanctuaryLocation,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+  Widget _buildSanctuaryInfo() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SanctuaryDetailsScreen(
+              sanctuaryName: _sanctuaryName,
+              location: _sanctuaryLocation,
+            ),
           ),
-          const Divider(height: 32),
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.blue[100],
-                child: Icon(Icons.person, size: 25, color: Colors.blue[700]),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _keeperName,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _keeperRole,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ],
+        );
+      },
+      child: Card(
+      elevation: 4,
+      margin: const EdgeInsets.all(16),
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: const Color(0xFF1A237E).withOpacity(0.1),
+                  child: const Icon(Icons.park, size: 30, color: Color(0xFF1A237E)),
                 ),
-              ),
-            ],
-          ),
-        ],
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _sanctuaryName,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1A237E),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        _sanctuaryLocation,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF1A237E),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Divider(
+              height: 32,
+              color: const Color(0xFF1A237E).withOpacity(0.2),
+            ),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: const Color(0xFFecaa00).withOpacity(0.2),
+                  child: const Icon(Icons.person, size: 25, color: Color(0xFFecaa00)),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _keeperName,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1A237E),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        _keeperRole,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: const Color(0xFF1A237E).withOpacity(0.7),
+                        ),
+                      ),
+                      Text(
+                        _keeperDid,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: const Color(0xFF1A237E).withOpacity(0.5),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    ));
+  }
 
-Widget _getScreen() {
+  Widget _getScreen() {
     switch (_selectedIndex) {
       case 0:
         return _buildMainContent();
@@ -138,13 +172,15 @@ Widget _getScreen() {
       case 2:
         return TTPScreen(apiService: widget.apiService);
       case 3:
-        return VerificationScreen(apiService: widget.apiService); // Changé de WalletScreen
+        return VerificationScreen(
+            apiService: widget.apiService); // Changé de WalletScreen
       default:
         return _buildMainContent();
     }
   }
 
-Widget _buildMainContent() {
+// Modification de _buildMainContent
+  Widget _buildMainContent() {
     return RefreshIndicator(
       onRefresh: () async {
         await Future.delayed(const Duration(seconds: 1));
@@ -155,10 +191,13 @@ Widget _buildMainContent() {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSanctuaryInfo(),  // Ajouté
+            _buildSanctuaryInfo(),
             const SizedBox(height: 24),
-            _buildIdentityCard(),
+            _buildScanButton(), // Nouveau widget ajouté
             const SizedBox(height: 24),
+            // _buildIdentityCard(),
+            const SizedBox(height: 16),
+
             _buildInfoCards(),
             const SizedBox(height: 24),
             _buildDidInfoSection(),
@@ -168,7 +207,96 @@ Widget _buildMainContent() {
     );
   }
 
-  
+  Widget _buildScanButton() {
+  return Center(
+    child: Container(
+      width: MediaQuery.of(context).size.width * 0.85, // Augmenté à 85% de la largeur
+      height: 80, // Hauteur fixe pour un bouton plus grand
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VerificationScreen(
+                apiService: widget.apiService,
+              ),
+            ),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 31, 112, 218),
+          foregroundColor: Colors.white,
+          padding: EdgeInsets.zero, // Pas de padding pour contrôler précisément le contenu
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Coins plus arrondis
+          ),
+          elevation: 4, // Ombre plus prononcée
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Effet de brillance
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 40,
+              child: Container(
+                
+              ),
+            ),
+            // Contenu principal
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Stack(
+                    alignment: Alignment.center,
+                    children: [
+                       Icon(
+                        Icons.pets,
+                        size: 32,
+                        color: Colors.white,
+                      ),
+                      
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Start Pet Recognition',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    Text(
+                      'Scan to identify a primate',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white.withOpacity(0.8),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
   Widget _buildIdentityCard() {
     return Center(
@@ -252,11 +380,11 @@ Widget _buildMainContent() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'DID Information',
+          'Keeper Information',
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: Color(0xFF1A237E),
           ),
         ),
         const SizedBox(height: 16),
@@ -272,31 +400,7 @@ Widget _buildMainContent() {
               title: 'KYC Status',
               value: 'Initial',
               icon: Icons.verified_user,
-              color: Colors.orange,
-            ),
-            _buildInfoCard(
-              title: 'Network',
-              value: 'Algorand Testnet',
-              icon: Icons.network_check,
-              color: Colors.blue,
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => VerificationScreen(
-                      apiService: widget.apiService,
-                    ),
-                  ),
-                );
-              },
-              child: _buildInfoCard(
-                title: 'Scan',
-                value: 'Start Recognition',
-                icon: Icons.pets,
-                color: Colors.green,
-              ),
+              color: const Color(0xFFecaa00),
             ),
             GestureDetector(
               onTap: () {
@@ -313,7 +417,7 @@ Widget _buildMainContent() {
                 title: 'Credentials',
                 value: '1 Verified',
                 icon: Icons.badge,
-                color: Colors.purple,
+                color: const Color(0xFF1A237E),
               ),
             ),
           ],
@@ -321,6 +425,7 @@ Widget _buildMainContent() {
       ],
     );
   }
+
 
   Widget _buildInfoCard({
     required String title,
@@ -362,21 +467,23 @@ Widget _buildMainContent() {
   Widget _buildDidInfoSection() {
     return Card(
       elevation: 2,
+      color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
-                Icon(Icons.info_outline, color: Colors.blue),
-                SizedBox(width: 8),
-                Text(
+                const Icon(Icons.info_outline, color: Color(0xFFecaa00)), // Jaune pour l'icône
+                const SizedBox(width: 8),
+                const Text(
                   'About Your DID',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xFF1A237E), // Bleu marine
                   ),
                 ),
               ],
@@ -399,7 +506,7 @@ Widget _buildMainContent() {
       ),
     );
   }
-  
+
   Widget _buildInfoRow({required String title, required String content}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -411,21 +518,22 @@ Widget _buildMainContent() {
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
-              color: Colors.black87,
+              color: Color(0xFF1A237E),
             ),
           ),
           const SizedBox(height: 4),
           Text(
             content,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: Colors.black54,
+              color: const Color(0xFF1A237E).withOpacity(0.7),
             ),
           ),
         ],
       ),
     );
   }
+
 
   Widget _buildActionButtons() {
     return Row(
@@ -655,62 +763,81 @@ Widget _buildMainContent() {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
-    backgroundColor: Colors.grey[100],
+    backgroundColor: const Color(0xFFF5F6F9),
     appBar: AppBar(
+      backgroundColor: const Color(0xFF1A237E), // Bleu marine
       title: Image.asset(
         'assets/images/logo.png',
         height: 32.0,
       ),
+      iconTheme: const IconThemeData(
+        color: Color(0xFFecaa00), // Jaune pour les icônes
+      ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.qr_code),
+          icon: const Icon(
+            Icons.qr_code,
+            color: Color(0xFFecaa00), // Jaune
+          ),
           onPressed: () => _showQRCode(),
         ),
         IconButton(
-          icon: const Icon(Icons.person),
+          icon: const Icon(
+            Icons.person,
+            color: Color(0xFFecaa00), // Jaune
+          ),
           onPressed: () => _navigateToProfile(),
         ),
       ],
-      elevation: 2,
+      elevation: 0, // Enlever l'ombre pour un look plus moderne
     ),
     body: _getScreen(),
-    bottomNavigationBar: BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: (index) {
-        if (index == 3) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VerificationScreen(
-                apiService: widget.apiService,
+    bottomNavigationBar: Theme(
+      data: Theme.of(context).copyWith(
+        canvasColor: const Color(0xFF1A237E), // Bleu marine
+      ),
+      child: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VerificationScreen(
+                  apiService: widget.apiService,
+                ),
               ),
-            ),
-          );
-        } else {
-          setState(() => _selectedIndex = index);
-        }
-      },
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: const Color.fromARGB(255, 229, 16, 162),
-      unselectedItemColor: Colors.grey,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+            );
+          } else {
+            setState(() => _selectedIndex = index);
+          }
+        },
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color(0xFF1A237E), // Bleu marine
+        selectedItemColor: const Color(0xFFecaa00), // Jaune pour l'icône active
+        unselectedItemColor: Colors.white, // Blanc pour les icônes inactives
+        selectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.badge),
-          label: 'Credentials',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.verified_user),
-          label: 'TTPs',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.pets),  // Changé de account_balance_wallet
-          label: 'Scan Primate',  // Changé de Wallet
-        ),
-      ],
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.badge),
+            label: 'Credentials',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.verified_user),
+            label: 'TTPs',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pets),
+            label: 'Scan',
+          ),
+        ],
+      ),
     ),
   );
 }

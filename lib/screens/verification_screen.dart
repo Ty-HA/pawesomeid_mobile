@@ -27,7 +27,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     'sex': 'Male',
     'arrivalDate': '2020-06-15',
     'origin': 'Rescued from illegal pet trade',
-    'imageUrl': 'https://via.placeholder.com/400x200?text=Primate+Photo',
+    'imageUrl': 'assets/images/chimpanze.jpg',
     'healthStatus': 'Good',
     'lastCheckup': '2024-03-15',
     'weight': '45.5',
@@ -70,7 +70,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       Icon(
                         Icons.pets,
                         size: 60,
-                        color: Colors.brown[400],
+                        color: const Color(0xFFecaa00),
                       ),
                     const SizedBox(height: 16),
                     const Text(

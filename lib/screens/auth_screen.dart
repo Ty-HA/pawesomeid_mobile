@@ -13,7 +13,7 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF1A237E), // Bleu marine
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -26,39 +26,38 @@ class AuthScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Colors.white, // Changé en blanc
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 0),
-              Image.asset(
-                'assets/images/logo.png',
-                height: 120,
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  height: 120,
+                ),
               ),
               const SizedBox(height: 60),
               ElevatedButton(
                 onPressed: () => _handlePeraWalletLogin(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.yellow,
+                  backgroundColor: const Color(0xFFecaa00), // Jaune assorti
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  elevation: 4, // Ajout d'une ombre
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/pera_wallet_logo.png',
-                      height: 24,
-                      width: 24,
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
+                    Text(
                       'Login as a keeper',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF1A237E), // Bleu marine
                       ),
                     ),
                   ],
@@ -67,15 +66,21 @@ class AuthScreen extends StatelessWidget {
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () => _navigateToRegistration(context),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(12),
+                ),
                 child: RichText(
                   text: const TextSpan(
                     text: 'New to PawesomeID? ',
-                    style: TextStyle(color: Colors.black87),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 16,
+                    ),
                     children: [
                       TextSpan(
                         text: 'Register here',
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: Color(0xFFecaa00), // Jaune assorti
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -90,31 +95,43 @@ class AuthScreen extends StatelessWidget {
     );
   }
 
- void _handlePeraWalletLogin(BuildContext context) async {
+  void _handlePeraWalletLogin(BuildContext context) async {
     try {
       // Debug message
       debugPrint('Attempting to connect to Pera Wallet...');
-      
+
       // Simulate connection delay
       await Future.delayed(const Duration(seconds: 2));
-      
+
       if (context.mounted) {
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Successfully connected to PawesomeID!'),
-            backgroundColor: Colors.green,
+          SnackBar(
+            content: Row(
+              children: const [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 10),
+                Text('Successfully connected to PawesomeID!'),
+              ],
+            ),
+            backgroundColor: const Color(0xFF4CAF50), // Vert plus doux
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
 
         // Navigate to HomeScreen after brief delay to show the success message
         await Future.delayed(const Duration(seconds: 1));
-        
+
         if (context.mounted) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(apiService: apiService,), 
+              builder: (context) => HomeScreen(
+                apiService: apiService,
+              ),
             ),
           );
         }
@@ -123,8 +140,18 @@ class AuthScreen extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login failed: ${e.toString()}'),
+            content: Row(
+              children: [
+                const Icon(Icons.error_outline, color: Colors.white),
+                const SizedBox(width: 10),
+                Text('Login failed: ${e.toString()}'),
+              ],
+            ),
             backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
         );
       }
@@ -136,49 +163,6 @@ class AuthScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) => VerificationScreen(apiService: apiService),
-      ),
-    );
-  }
-}
-
-// Modified SplashScreen to navigate to AuthScreen instead of HomeScreen
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _navigateToAuthScreen();
-  }
-
-  void _navigateToAuthScreen() {
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AuthScreen(
-            apiService: Provider.of<ApiService>(context, listen: false),
-          ),
-        ),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Image.asset(
-          'assets/images/logo.png',
-          width: 150,
-          height: 150,
-        ),
       ),
     );
   }

@@ -45,8 +45,8 @@ class PrimateDetailsScreen extends StatelessWidget {
           height: 200,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(primateData['imageUrl'] ?? 
-                'https://via.placeholder.com/400x200?text=Primate+Photo'),
+              image: AssetImage(primateData['imageUrl'] ?? 
+                'assets/images/chimpanze.jpg'),
               fit: BoxFit.cover,
             ),
           ),

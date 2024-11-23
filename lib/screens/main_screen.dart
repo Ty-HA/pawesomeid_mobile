@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'NexusID',
+          'PawesomeID',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [

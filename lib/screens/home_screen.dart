@@ -270,7 +270,7 @@ Widget _buildMainContent() {
           children: [
             _buildInfoCard(
               title: 'KYC Status',
-              value: 'Initial',  // Changed from 'Pending'
+              value: 'Initial',
               icon: Icons.verified_user,
               color: Colors.orange,
             ),
@@ -280,17 +280,41 @@ Widget _buildMainContent() {
               icon: Icons.network_check,
               color: Colors.blue,
             ),
-            _buildInfoCard(
-              title: 'Wallet',
-              value: 'Pera Wallet',  // Changed from 'Created On'
-              icon: Icons.account_balance_wallet,
-              color: Colors.green,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VerificationScreen(
+                      apiService: widget.apiService,
+                    ),
+                  ),
+                );
+              },
+              child: _buildInfoCard(
+                title: 'Scan',
+                value: 'Start Recognition',
+                icon: Icons.pets,
+                color: Colors.green,
+              ),
             ),
-            _buildInfoCard(
-              title: 'Credentials',
-              value: '0 Verified',  // Changed from 'Personal'
-              icon: Icons.badge,
-              color: Colors.purple,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CredentialsScreen(
+                      apiService: widget.apiService,
+                    ),
+                  ),
+                );
+              },
+              child: _buildInfoCard(
+                title: 'Credentials',
+                value: '1 Verified',
+                icon: Icons.badge,
+                color: Colors.purple,
+              ),
             ),
           ],
         ),

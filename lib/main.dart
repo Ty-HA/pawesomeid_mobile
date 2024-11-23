@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'NexusID',
+      title: 'PawesomeID',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,

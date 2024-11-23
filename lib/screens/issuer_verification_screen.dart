@@ -173,7 +173,7 @@ class _IssuerCredentialScreenState extends State<IssuerCredentialScreen> {
   final String issuerDid = 'did:algo:ISSUER7G624ETVT2LXD3RRZFQEVK53HQKTBIEREW7EVNU6I6FQMRQFM7B5';
 
   final List<String> categories = [
-    'University - Bachelor\'s Degree',
+    'Animal Care Level 2 Diploma',
     'Professional Certification',
     'Employment Verification',
     'Income Verification',

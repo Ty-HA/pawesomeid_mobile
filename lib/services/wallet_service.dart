@@ -20,9 +20,9 @@ class WalletService extends ChangeNotifier {
     connector = WalletConnect(
       bridge: 'https://bridge.walletconnect.org',
       clientMeta: const PeerMeta(
-        name: 'NexusID',
+        name: 'PawesomeID',
         description: 'A Decentralized Identity DApp',
-        url: 'https://nexusid.app',
+        url: 'https://PawesomeID.app',
         icons: ['https://your-website.com/icon.png'],
       ),
     );

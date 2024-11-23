@@ -19,27 +19,35 @@ class _NearbyTTPViewState extends State<NearbyTTPView> {
   bool _isLoading = true;
   GoogleMapController? _mapController;
 
-  // TTP simulés avec coordonnées
+  // TTP simulated with real coordinates
   final List<Map<String, dynamic>> _nearbyTTPs = [
     {
-      'name': 'Local School District',
-      'type': 'Education',
-      'distance': '0.5 km',
-      'lat': 48.8566, // Paris coordinates
-      'lng': 2.3522,
-      'color': Colors.blue,
-      'icon': Icons.school,
+      'name': 'ZooParc de Beauval',
+      'type': 'Zoo & Research Center',
+      'distance': '2.5 km',
+      'lat': 47.2480, // Real coordinates of Beauval
+      'lng': 1.3539,
+      'color': Colors.green,
+      'icon': Icons.pets,
     },
     {
-      'name': 'NGO Office',
-      'type': 'Identity',
-      'distance': '1.2 km',
-      'lat': 48.8584,
-      'lng': 2.3540,
-      'color': Colors.green,
-      'icon': Icons.verified_user,
+      'name': 'Monkey Valley',
+      'type': 'Primate Sanctuary',
+      'distance': '3.8 km',
+      'lat': 46.3169, // Real coordinates of Monkey Valley
+      'lng': 0.3034,
+      'color': Colors.brown,
+      'icon': Icons.nature_people,
     },
-    // Ajoutez d'autres TTPs avec leurs coordonnées
+    {
+      'name': 'Tete d\'Or Zoo',
+      'type': 'Zoo & Sanctuary',
+      'distance': '5.2 km',
+      'lat': 45.7766, // Real coordinates of Tete d'Or Zoo
+      'lng': 4.8525,
+      'color': Colors.blue,
+      'icon': Icons.park,
+    },
   ];
 
   @override
@@ -224,41 +232,52 @@ class TTPScreen extends StatelessWidget {
 
   final List<Map<String, dynamic>> _ttps = const [
     {
-      'name': 'Local School District',
-      'type': 'Education',
-      'rating': 4.8,
-      'verified': true,
-      'description': 'Official education credentials provider',
-      'services': ['Education Certificates', 'Academic Records', 'Student ID'],
-      'location': 'Paris, France',
-      'icon': Icons.school,
-      'color': Colors.blue,
-    },
-    {
-      'name': 'NGO Identity Services',
-      'type': 'Identity',
+      'name': 'ZooParc de Beauval',
+      'type': 'Zoo & Research Center',
       'rating': 4.9,
       'verified': true,
-      'description': 'International identity verification partner',
-      'services': ['ID Verification', 'Birth Certificates', 'Legal Documents'],
-      'location': 'Global',
-      'icon': Icons.verified_user,
+      'description': 'France\'s leading zoo, globally recognized for its conservation and breeding programs for endangered species, especially great apes.',
+      'services': [
+        'Primate Health Records',
+        'Conservation Status',
+        'Research Data',
+        'Birth Certificates'
+      ],
+      'location': 'Saint-Aignan, France',
+      'icon': Icons.pets,
       'color': Colors.green,
     },
     {
-      'name': 'Tech Certification Board',
-      'type': 'Professional',
+      'name': 'Monkey Valley',
+      'type': 'Primate Sanctuary',
+      'rating': 4.8,
+      'verified': true,
+      'description': 'France\'s largest primate sanctuary, specializing in conservation and study of semi-free great apes',
+      'services': [
+        'Primate ID Verification',
+        'Health Monitoring',
+        'Behavioral Studies',
+        'Species Conservation'
+      ],
+      'location': 'Romagne, France',
+      'icon': Icons.nature_people,
+      'color': Colors.brown,
+    },
+    {
+      'name': 'Tete d\'Or Zoo',
+      'type': 'Zoo & Sanctuary',
       'rating': 4.7,
       'verified': true,
-      'description': 'Professional certifications in technology',
+      'description': 'One of France\'s oldest zoos, committed to primate protection and welfare',
       'services': [
-        'Professional Certificates',
-        'Skill Assessment',
-        'Work History'
+        'Animal Healthcare',
+        'Species Registry',
+        'Medical Records',
+        'Conservation Status'
       ],
-      'location': 'Digital',
-      'icon': Icons.business,
-      'color': Colors.purple,
+      'location': 'Lyon, France',
+      'icon': Icons.park,
+      'color': Colors.blue,
     },
   ];
 

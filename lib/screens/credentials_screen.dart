@@ -17,13 +17,13 @@ class _CredentialsScreenState extends State<CredentialsScreen> {
 
   final List<Map<String, dynamic>> _credentials = [
     {
-      'title': 'University - Bachelor\'s Degree',
+      'title': 'Animal Care Level 2 Diploma',
       'issuer':
           'did:algo:ISSUER7G624ETVT2LXD3RRZFQEVK53HQKTBIEREW7EVNU6I6FQMRQFM7B5',
       'date': '2024-11-01',
       'verified': true,
       'type': 'education',
-      'details': 'Bachelor of Computer Science',
+      'details': 'Animal Care Level 2 Diploma',
       'score': 95,
     },
   ];
@@ -290,7 +290,7 @@ class _CredentialsScreenState extends State<CredentialsScreen> {
               const SizedBox(height: 20),
               ListTile(
                 leading: const Icon(Icons.school),
-                title: const Text('University - Bachelor\'s Degree'),
+                title: const Text('add Diploma'),
                 onTap: () {
                   Navigator.pop(context);
                   debugPrint('Adding university credential...');

@@ -69,7 +69,7 @@ class AuthScreen extends StatelessWidget {
                 onPressed: () => _navigateToRegistration(context),
                 child: RichText(
                   text: const TextSpan(
-                    text: 'New to NexusID? ',
+                    text: 'New to PawesomeID? ',
                     style: TextStyle(color: Colors.black87),
                     children: [
                       TextSpan(

@@ -27,37 +27,49 @@ export class IdentityController {
     }
   };
 
-  createAnimalIdentity = async (req: Request, res: Response) => {
-    try {
-      const { name, species, birthDate, sanctuaryDid } = req.body;
+createAnimalIdentity = async (req: Request, res: Response) => {
+  try {
+    const { name, species, birthDate, sanctuaryDid } = req.body;
 
-      if (!name || !species || !sanctuaryDid) {
-        return res.status(400).json({
-          success: false,
-          error: 'Données manquantes'
-        });
-      }
-
-      const identity = await this.identityService.createIdentity('animal', {
-        name,
-        species,
-        birthDate
-      });
-
-      res.status(201).json({
-        success: true,
-        identity
-      });
-
-    } catch (error) {
-      console.error('Erreur création identité:', error);
-      res.status(500).json({
+    if (!name || !species || !sanctuaryDid) {
+      return res.status(400).json({
         success: false,
-        error: 'Erreur lors de la création de l\'identité',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        error: 'Données manquantes'
       });
     }
-  };
+
+    // Créer l'identité
+    const identityResponse = await this.identityService.createIdentity('animal', {
+      name,
+      species,
+      birthDate
+    });
+
+    // Log pour debug
+    console.log('Identity Response:', identityResponse);
+
+    // Construire la réponse dans le bon format
+    res.status(201).json({
+      success: true,
+      identity: {
+        did: identityResponse.did,
+        address: identityResponse.address,
+        type: identityResponse.type,
+        metadata: identityResponse.metadata,
+        transactionHash: identityResponse.transactionHash,  // Important !
+        blockNumber: identityResponse.blockNumber          // Important !
+      }
+    });
+
+  } catch (error) {
+    console.error('Erreur création identité:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Erreur lors de la création de l\'identité',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+};
 
   issueCredential = async (req: Request, res: Response) => {
     try {

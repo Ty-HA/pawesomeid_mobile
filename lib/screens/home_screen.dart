@@ -8,6 +8,8 @@ import 'credentials_screen.dart';
 import 'profile_screen.dart';
 import 'ttp_screen.dart';
 import 'sanctuary_details_screen.dart';
+import 'register_screen.dart';
+import 'package:pawesomeid_mobile/services/identity_service.dart';
 import 'package:pawesomeid_mobile/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -208,93 +210,81 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildScanButton() {
-  return Center(
-    child: Container(
-      width: MediaQuery.of(context).size.width * 0.85, // Augmenté à 85% de la largeur
-      height: 80, // Hauteur fixe pour un bouton plus grand
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VerificationScreen(
-                apiService: widget.apiService,
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: 80,
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VerificationScreen(
+                  apiService: widget.apiService,
+                ),
               ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 31, 112, 218),
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-          );
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 31, 112, 218),
-          foregroundColor: Colors.white,
-          padding: EdgeInsets.zero, // Pas de padding pour contrôler précisément le contenu
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16), // Coins plus arrondis
+            elevation: 4,
           ),
-          elevation: 4, // Ombre plus prononcée
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Effet de brillance
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 40,
-              child: Container(
-                
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.pets, size: 24),
+              const SizedBox(height: 4),
+              Text(
+                'Scan Pet',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.9),
+                ),
               ),
-            ),
-            // Contenu principal
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Stack(
-                    alignment: Alignment.center,
-                    children: [
-                       Icon(
-                        Icons.pets,
-                        size: 32,
-                        color: Colors.white,
-                      ),
-                      
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Start Pet Recognition',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    Text(
-                      'Scan to identify a primate',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.8),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
+      Container(
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: 80,
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        child: ElevatedButton(
+          onPressed: _navigateToRegister,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFecaa00),
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 4,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.add_circle_outline, size: 24),
+              const SizedBox(height: 4),
+              Text(
+                'New Pet',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white.withOpacity(0.9),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
   );
 }
 
@@ -474,11 +464,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
-                const Icon(Icons.info_outline, color: Color(0xFFecaa00)), // Jaune pour l'icône
-                const SizedBox(width: 8),
-                const Text(
+                Icon(Icons.info_outline, color: Color(0xFFecaa00)), // Jaune pour l'icône
+                SizedBox(width: 8),
+                Text(
                   'About Your DID',
                   style: TextStyle(
                     fontSize: 18,
@@ -733,6 +723,59 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+
+void _navigateToRegister() async {
+  final result = await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => RegisterScreen(
+        identityService: IdentityService(baseUrl: 'http://192.168.1.86:3000/api'),
+        apiService: widget.apiService,
+      ),
+    ),
+  );
+
+  if (result != null && mounted) {
+    // Afficher une notification de succès
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Pet registered successfully!'),
+                  Text('DID: ${result['did']}',
+                      style: const TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 4),
+        action: SnackBarAction(
+          label: 'VIEW',
+          textColor: Colors.white,
+          onPressed: () {
+            // Naviguer vers les détails si nécessaire
+          },
+        ),
+      ),
+    );
+
+    // Rafraîchir l'interface
+    setState(() {
+      // Mettre à jour votre liste d'identités ou l'état si nécessaire
+    });
+  }
+}
+
   void _navigateToProfile() {
     Navigator.push(
       context,
@@ -792,6 +835,11 @@ Widget build(BuildContext context) {
       elevation: 0, // Enlever l'ombre pour un look plus moderne
     ),
     body: _getScreen(),
+    floatingActionButton: FloatingActionButton(
+      onPressed: _navigateToRegister,
+      backgroundColor: const Color(0xFFecaa00),
+      child: const Icon(Icons.add),
+    ),
     bottomNavigationBar: Theme(
       data: Theme.of(context).copyWith(
         canvasColor: const Color(0xFF1A237E), // Bleu marine

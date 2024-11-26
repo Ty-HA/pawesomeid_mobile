@@ -79,74 +79,53 @@ export class IdentityService {
     }
   }
 
-  async createIdentity(type: 'sanctuary' | 'animal', metadata: any) {
-    try {
-      console.log('Creating identity...');
-      console.log('Using wallet address:', this.wallet.address);
-      
-      const did = `did:polygon:amoy:${this.wallet.address}`;
+async createIdentity(type: 'sanctuary' | 'animal', metadata: any) {
+  try {
+    console.log('Creating identity with metadata:', metadata);
+    const did = `did:polygon:amoy:${this.wallet.address}`;
 
-      const claim = {
-        type: type === 'sanctuary' ? 'SanctuaryClaim' : 'AnimalClaim',
-        issuanceDate: new Date().toISOString(),
-        expirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-        attributes: {
-          ...metadata,
-          entityType: type,
-          createdAt: new Date().toISOString()
-        }
-      };
-
-      console.log('Preparing transaction...');
-
-      // Obtenir le nonce actuel
-      const nonce = await this.wallet.getTransactionCount();
-      console.log('Current nonce:', nonce);
-
-      // Obtenir les prix de gas recommandés
-      const feeData = await this.provider.getFeeData();
-      console.log('Fee data:', {
-        maxFeePerGas: ethers.utils.formatUnits(feeData.maxFeePerGas || 0, 'gwei'),
-        maxPriorityFeePerGas: ethers.utils.formatUnits(feeData.maxPriorityFeePerGas || 0, 'gwei')
-      });
-
-      // Préparer les paramètres de transaction avec des gas prix plus élevés
-      const tx = await this.wallet.sendTransaction({
-        to: ethers.constants.AddressZero,
-        data: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(JSON.stringify(claim))),
-        nonce: nonce,
-        // Ajuster les prix de gas (augmentés pour Amoy)
-        maxFeePerGas: ethers.utils.parseUnits('100', 'gwei'),
-        maxPriorityFeePerGas: ethers.utils.parseUnits('30', 'gwei'),
-        // Estimation du gas limit avec une marge
-        gasLimit: ethers.utils.hexlify(100000)
-      });
-
-      console.log('Transaction sent! Hash:', tx.hash);
-      console.log('Waiting for confirmation...');
-      
-      const receipt = await tx.wait(1);
-      console.log('Transaction confirmed in block:', receipt.blockNumber);
-
-      return {
-        did,
-        address: this.wallet.address,
-        type,
-        metadata,
-        claim,
-        transaction: {
-          hash: tx.hash,
-          blockNumber: receipt.blockNumber
-        }
-      };
-    } catch (error) {
-      console.error('Error in createIdentity:', error);
-      if ((error as any).code === 'INSUFFICIENT_FUNDS') {
-        throw new Error('Insufficient funds for transaction. Please ensure your wallet has enough POL tokens.');
+    const claim = {
+      type: type === 'sanctuary' ? 'SanctuaryClaim' : 'AnimalClaim',
+      issuanceDate: new Date().toISOString(),
+      expirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+      attributes: {
+        ...metadata,
+        entityType: type,
+        createdAt: new Date().toISOString()
       }
-      throw new Error(`Failed to create identity: ${(error as any).message}`);
-    }
+    };
+
+    console.log('Sending transaction with claim:', claim);
+
+    const tx = await this.wallet.sendTransaction({
+      to: ethers.constants.AddressZero,
+      data: ethers.utils.hexlify(ethers.utils.toUtf8Bytes(JSON.stringify(claim))),
+      maxFeePerGas: ethers.utils.parseUnits('100', 'gwei'),
+      maxPriorityFeePerGas: ethers.utils.parseUnits('30', 'gwei'),
+      gasLimit: ethers.utils.hexlify(100000)
+    });
+
+    console.log('Transaction sent, hash:', tx.hash);
+    const receipt = await tx.wait(1);
+    console.log('Transaction confirmed, block:', receipt.blockNumber);
+
+    const response = {
+      did,
+      address: this.wallet.address,
+      type,
+      metadata,
+      transactionHash: tx.hash,
+      blockNumber: receipt.blockNumber
+    };
+
+    console.log('Returning response:', response);
+    return response;
+
+  } catch (error) {
+    console.error('Error in createIdentity:', error);
+    throw new Error(`Failed to create identity: ${(error as any).message}`);
   }
+}
 
   async issueCredential(
     issuerDid: string,

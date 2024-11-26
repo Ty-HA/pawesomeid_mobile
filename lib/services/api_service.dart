@@ -24,7 +24,7 @@ class ApiService {
         "address": "",
         "private_key": null,
         "user_info": {
-          "name": "NexusID User",
+          "name": "PawesomeID User",
           "timestamp": DateTime.now().toIso8601String(),
           "device": Platform.operatingSystem,
           

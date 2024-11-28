@@ -20,7 +20,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   // Mock data for testing
   final Map<String, dynamic> _mockPrimateData = {
-    'id': 'PRM-2024-001',
+    'id': 'did:polygon:amoy:0x1561561561...',
     'name': 'Charlie',
     'species': 'Chimpanzee',
     'age': 8,

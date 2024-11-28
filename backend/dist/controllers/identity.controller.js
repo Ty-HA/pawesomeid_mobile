@@ -24,21 +24,40 @@ class IdentityController {
         };
         this.createAnimalIdentity = async (req, res) => {
             try {
-                const { name, species, birthDate, sanctuaryDid } = req.body;
+                const { name, species, birthDate, sanctuaryDid, subspecies, sex, biometrics, parents } = req.body;
                 if (!name || !species || !sanctuaryDid) {
                     return res.status(400).json({
                         success: false,
-                        error: 'Données manquantes'
+                        error: 'Missing data'
                     });
                 }
+                // Créer l'identité
                 const identity = await this.identityService.createIdentity('animal', {
                     name,
                     species,
-                    birthDate
+                    birthDate,
+                    sanctuaryDid,
+                    subspecies,
+                    sex,
+                    biometrics,
+                    parents
                 });
+                // Log pour debug
+                console.log('Identity Response:', identity);
+                // Construire la réponse dans le bon format
                 res.status(201).json({
                     success: true,
-                    identity
+                    identity: {
+                        did: identity.did,
+                        address: identity.address,
+                        type: identity.type,
+                        metadata: identity.metadata,
+                        claim: identity.claim,
+                        transaction: {
+                            hash: identity.transactionHash,
+                            blockNumber: identity.blockNumber
+                        }
+                    }
                 });
             }
             catch (error) {
@@ -56,7 +75,7 @@ class IdentityController {
                 if (!issuerDid || !animalDid || !credentialType || !credentialData) {
                     return res.status(400).json({
                         success: false,
-                        error: 'Données manquantes'
+                        error: 'Missing data'
                     });
                 }
                 const credential = await this.identityService.issueCredential(issuerDid, animalDid, {

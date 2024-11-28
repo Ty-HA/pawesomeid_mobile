@@ -85,12 +85,30 @@ async createIdentity(type: 'sanctuary' | 'animal', metadata: any) {
     const did = `did:polygon:amoy:${this.wallet.address}`;
 
     const claim = {
-      type: type === 'sanctuary' ? 'SanctuaryClaim' : 'AnimalClaim',
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schema.privado.io/credentials/identity/v1"
+      ],
+      type: type === 'sanctuary' ? 'SanctuaryIdentity' : 'AnimalIdentity',
       issuanceDate: new Date().toISOString(),
       expirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-      attributes: {
-        ...metadata,
-        entityType: type,
+      credentialSubject: {
+        id: did,
+        type: type,
+        name: metadata.name,
+        species: metadata.species,
+        birthDate: metadata.birthDate,
+        subspecies: metadata.subspecies,
+        sex: metadata.sex,
+        parents: metadata.parents,
+        biometrics: {
+          dna: metadata.biometrics?.dna,
+          faceHash: metadata.biometrics?.faceHash,
+          distinctiveMarks: metadata.biometrics?.distinctiveMarks,
+          microchipId: metadata.biometrics?.microchipId,
+          weight: metadata.biometrics?.weight,
+          height: metadata.biometrics?.height,
+        },
         createdAt: new Date().toISOString()
       }
     };
@@ -114,6 +132,7 @@ async createIdentity(type: 'sanctuary' | 'animal', metadata: any) {
       address: this.wallet.address,
       type,
       metadata,
+      claim,
       transactionHash: tx.hash,
       blockNumber: receipt.blockNumber
     };

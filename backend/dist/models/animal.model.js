@@ -34,49 +34,54 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Animal = void 0;
-// src/models/animal.model.ts
 const mongoose_1 = __importStar(require("mongoose"));
 const AnimalSchema = new mongoose_1.Schema({
-    did: {
+    did: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    species: { type: String, required: true },
+    subspecies: String,
+    birthDate: Date,
+    sanctuaryDid: { type: String, required: true },
+    status: {
         type: String,
-        required: true,
-        unique: true
+        enum: ['alive', 'deceased', 'unknown'],
+        default: 'alive'
     },
-    name: {
+    sex: {
         type: String,
-        required: true
+        enum: ['male', 'female', 'unknown'],
+        default: 'unknown'
     },
-    species: {
-        type: String,
-        required: true
+    parents: {
+        father: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Animal' },
+        mother: { type: mongoose_1.Schema.Types.ObjectId, ref: 'Animal' }
     },
-    birthDate: {
-        type: Date
+    offspring: [{ type: mongoose_1.Schema.Types.ObjectId, ref: 'Animal' }],
+    biometrics: {
+        dna: String,
+        faceHash: String,
+        distinctiveMarks: [String],
+        microchipId: String,
+        weight: Number,
+        height: Number
     },
-    sanctuaryDid: {
-        type: String,
-        required: true
-    },
-    faceHash: {
-        type: String
+    currentLocation: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     },
     credentials: [{
-            type: {
-                type: String,
-                required: true
-            },
-            issuanceDate: {
-                type: Date,
-                required: true
-            },
-            expirationDate: {
-                type: Date,
-                required: true
-            },
-            credentialHash: {
-                type: String,
-                required: true
-            }
+            type: { type: String, required: true },
+            issuanceDate: { type: Date, required: true },
+            expirationDate: { type: Date, required: true },
+            credentialHash: { type: String, required: true },
+            issuer: { type: String, required: true }
         }],
     metadata: {
         type: Map,
@@ -86,4 +91,5 @@ const AnimalSchema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
+AnimalSchema.index({ currentLocation: '2dsphere' });
 exports.Animal = mongoose_1.default.model('Animal', AnimalSchema);

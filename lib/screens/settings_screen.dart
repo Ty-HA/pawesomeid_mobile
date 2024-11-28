@@ -64,7 +64,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ListTile(
                 title: const Text('Language'),
                 subtitle: Text(_selectedLanguage), // Retirez const
-                trailing: const Icon(Icons.arrow_forward_ios),
+                trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFFecaa00),
+                    size: 20,
+                  ),
                 onTap: _showLanguageDialog,
               ),
             ],

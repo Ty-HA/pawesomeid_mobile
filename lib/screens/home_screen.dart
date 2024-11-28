@@ -53,9 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // À ajouter dans la classe _HomeScreenState
 
-  final String _sanctuaryName = 'Primate Protection Center';
-  final String _sanctuaryLocation = 'Cameroon, Central Africa';
-  final String _keeperName = 'Keeper John';
+  final String _sanctuaryName = 'Tchimpounga sanctuary';
+  final String _sanctuaryLocation = 'Kouilou, Congo-Brazzaville';
+  final String _keeperName = 'Chimp Guardian John';
   final String _keeperRole = 'Senior Primate Caretaker';
   final String _keeperDid = 'did:algo:J4PCC5KTBIEREW7EVNU6I6FQMRQFM7B57G624ETVT2LXD3RRZFQEVK53HQ';
 
@@ -587,7 +587,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   'Issued by: ${credential['issuer']}\n${credential['date']}',
                 ),
                 trailing: IconButton(
-                  icon: const Icon(Icons.arrow_forward_ios),
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color(0xFFecaa00),
+                    size: 20,
+                  ),
                   onPressed: () => _viewCredentialDetails(credential),
                 ),
               ),
@@ -835,11 +839,7 @@ Widget build(BuildContext context) {
       elevation: 0, // Enlever l'ombre pour un look plus moderne
     ),
     body: _getScreen(),
-    floatingActionButton: FloatingActionButton(
-      onPressed: _navigateToRegister,
-      backgroundColor: const Color(0xFFecaa00),
-      child: const Icon(Icons.add),
-    ),
+    
     bottomNavigationBar: Theme(
       data: Theme.of(context).copyWith(
         canvasColor: const Color(0xFF1A237E), // Bleu marine

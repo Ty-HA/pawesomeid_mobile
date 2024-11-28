@@ -8,14 +8,18 @@ class IdentityService {
 
   IdentityService({required this.baseUrl});
 
-  Future<Map<String, dynamic>> createAnimalIdentity({
+  // Dans identity_service.dart
+Future<Map<String, dynamic>> createAnimalIdentity({
   required String name,
   required String species,
   required String birthDate,
   required String sanctuaryDid,
+  Map<String, dynamic>? biometrics,
+  Map<String, dynamic>? parents,
+  String? subspecies,
+  String? sex,
 }) async {
   try {
-    print('Sending request to $baseUrl/identity/animal');
     final response = await http.post(
       Uri.parse('$baseUrl/identity/animal'),
       headers: {'Content-Type': 'application/json'},
@@ -24,25 +28,19 @@ class IdentityService {
         'species': species,
         'birthDate': birthDate,
         'sanctuaryDid': sanctuaryDid,
+        'subspecies': subspecies,
+        'sex': sex,
+        'biometrics': biometrics,
+        'parents': parents,
       }),
     );
 
-    print('Response status code: ${response.statusCode}');
-    print('Response body: ${response.body}'); // Ajouté pour debug
-
     if (response.statusCode == 201) {
-      final data = jsonDecode(response.body);
-      if (data['identity'] != null) {
-        print('Parsed identity: ${data['identity']}'); // Ajouté pour debug
-        return data['identity'];
-      } else {
-        throw Exception('Response missing identity data');
-      }
+      return jsonDecode(response.body)['identity'];
     } else {
       throw Exception('Failed to create identity: ${response.body}');
     }
   } catch (e) {
-    print('Error in createAnimalIdentity: $e');
     rethrow;
   }
 }

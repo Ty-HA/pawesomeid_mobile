@@ -9,7 +9,7 @@ class SanctuaryDetailsScreen extends StatelessWidget {
   // Mock data pour la liste des primates
   final List<Map<String, dynamic>> primates = [
     {
-      'id': 'PRM-2024-001',
+      'id': 'did:polygon:amoy:0x1561561561...',
       'name': 'Charlie',
       'species': 'Chimpanzee',
       'age': 8,
